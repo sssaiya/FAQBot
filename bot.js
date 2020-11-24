@@ -1,7 +1,6 @@
 // Import Botkit's core features
 const { Botkit } = require("botkit");
 const { BotkitCMSHelper } = require("botkit-plugin-cms");
-const Data = require('./dataExtractor');
 
 // Import a platform-specific adapter for web.
 const { WebAdapter } = require("botbuilder-adapter-web");
@@ -35,8 +34,6 @@ if (process.env.CMS_URI) {
   );
 }
 
-let data = Data.getData();
-console.log(data);
 // Once the bot has booted up its internal services,
 controller.ready(() => {
   // load traditional developer-created local custom feature modules

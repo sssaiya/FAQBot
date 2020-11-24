@@ -13,6 +13,7 @@
     "botkit": "^4.10.0",
     "botkit-plugin-cms": "^1.0.3",
     "dotenv": "^7.0.0",
+    "natural": "^2.1.5",
     "node-xlsx": "^0.15.0"
   }
 }
