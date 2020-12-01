@@ -3,29 +3,54 @@ var natural = require("natural"); // NLP lib
 var Tokenizer = new natural.WordTokenizer();
 natural.PorterStemmer.attach(); //Patch lib with stemming
 
+var currentQuestion = "";
+
+module.exports.BOT_NAME = "HR Ops";
+module.exports.BOT_TYPING_TIME = "2000";
+var data = null;
+
 var corpus = [];
 module.exports.getData = function getDataObject() {
-  var workbook = XLSX.readFile("data.xlsx");
-  var first_sheet_name = workbook.SheetNames[0];
+  if (data != null) {
+    return data;
+  }
+  var workbook = XLSX.readFile("data2.xlsx");
+  var first_sheet_name = workbook.SheetNames[1];
 
   /* Get worksheet */
   var worksheet = workbook.Sheets[first_sheet_name];
   let jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-  let data = {
-    Questions: [],
+  data = {
+    Categories: [],
+    KeyWords: [],
     Answers: [],
-    QuestionStems: [],
+    keyWordStems: [],
     AnswerStems: [],
-    corpus: [],
+    Corpus: [],
   };
 
+  //Sum up all categories
+  let categoriesSet = new Set();
+  let categories = {};
+  // categoriesSet.forEach((category) => {
+  //   categories[category] = [];
+  // });
+
   for (const [key, value] of Object.entries(jsonData)) {
-    data.Questions.push(value.Questions);
-    data.Answers.push(value.Answers);
-    let tokenizedQuestions = value.Questions.tokenizeAndStem();
-    let tokenizedAnswers = value.Answers.tokenizeAndStem();
-    data.QuestionStems.push(tokenizedQuestions);
+    let thisCategory = value.Category.trim().toLowerCase();
+    if (categoriesSet.has(thisCategory)) {
+      categories[thisCategory].push(key);
+    } else {
+      categoriesSet.add(thisCategory);
+      categories[thisCategory] = [key];
+    }
+
+    data.KeyWords.push(value.Keyword);
+    data.Answers.push(value.Answer);
+    let tokenizedQuestions = value.Keyword.tokenizeAndStem();
+    let tokenizedAnswers = value.Answer.tokenizeAndStem();
+    data.keyWordStems.push(tokenizedQuestions);
     data.AnswerStems.push(tokenizedAnswers);
 
     //Add all tokens to our corpus, so that we can spellcheck user input and recommend against it
@@ -36,7 +61,8 @@ module.exports.getData = function getDataObject() {
       corpus.push(token);
     });
 
-    data.corpus = corpus;
+    data.Corpus = corpus;
+    data.Categories = categories;
   }
   return data;
 };
@@ -67,6 +93,8 @@ function spellCheck(corpus, wordToCheck) {
 
 //SpellChecks a sentence and returns root words. Used to process a question
 module.exports.spellCheckPhrase = function spellCheckPhrase(text, corpus) {
+  console.log(typeof text);
+  console.log(Array.isArray(text));
   let tokens = text.tokenizeAndStem();
   let spellChecked = [];
   tokens.forEach((token) => {
@@ -99,4 +127,30 @@ module.exports.matchTokens = function matchTokens(
   }
   console.log("best match - " + indexOfBestMatch);
   return indexOfBestMatch;
+};
+
+module.exports.findAllMatches = function findAllMatches(
+  questionTokens,
+  toMatchTokens
+) {
+  let matched = [];
+  for (let i = 0; i < questionTokens.length; i++) {
+    let thisMatch = 0;
+    questionTokens[i].forEach((token) => {
+      if (toMatchTokens.includes(token)) {
+        thisMatch++;
+      }
+    });
+    if (thisMatch > 0) {
+      matched.push(i);
+    }
+  }
+  return matched;
+};
+
+module.exports.getCurrentQuestion = function () {
+  return currentQuestion;
+};
+module.exports.setCurrentQuestion = function (newQuestion) {
+  currentQuestion = newQuestion;
 };
