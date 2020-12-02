@@ -8,7 +8,7 @@ html {
   margin: 0;
   padding: 0;
   font-size: 18px;
-  background-color: #FFF;
+  background-color: #fff;
   font-family: "helvetica", sans-serif;
 }
 
@@ -24,7 +24,7 @@ html {
 }
 
 .box {
-  border: 2px solid #CCC;
+  border: 2px solid #ccc;
   padding: 1rem calc(1rem - 2px);
   margin-bottom: 1rem;
 }
@@ -71,7 +71,7 @@ div.input label {
   border: 1px solid #999;
   border-radius: 6px;
   padding: 5px;
-  background: #F0F0F0;
+  background: #f0f0f0;
 }
 .addon input,
 .addon textarea {
@@ -91,7 +91,7 @@ div.input label {
   padding: 0.5rem;
 }
 .addon button:hover {
-  background: #FFF;
+  background: #fff;
   color: #a795ef;
 }
 
@@ -112,7 +112,7 @@ a.button {
   text-align: center;
   text-decoration: none;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-  background-color: #FFF;
+  background-color: #fff;
   transition: box-shadow 0.1s linear;
 }
 a.button:hover {
@@ -121,9 +121,9 @@ a.button:hover {
 
 /* chat client */
 #message_window {
-  background: #FFFFFF;
-  border-left: 1px solid #CCC;
-  border-right: 1px solid #CCC;
+  background: #ffffff;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
   /*height: 500px;
   width: 320px;*/
   height: 100%;
@@ -134,7 +134,7 @@ a.button:hover {
   font-family: "helvetica", sans-serif;
 }
 #message_window .disconnected {
-  background: #FFFFCC;
+  background: #ffffcc;
   padding: 0.25rem;
 }
 #message_window.connected .disconnected {
@@ -147,26 +147,18 @@ a.button:hover {
   display: none;
 }
 #message_window.offline .offline {
-  background: #FF0000;
-  color: #FFF;
+  background: #ff0000;
+  color: #fff;
   padding: 0.25rem;
   display: block;
 }
 #message_window .powered_by {
   flex-shrink: 0;
   text-align: center;
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid #ccc;
   font-size: 14px;
   padding: 0.25rem;
   color: #666;
-}
-#message_window .powered_by a {
-  text-decoration: none;
-  color: #666;
-}
-#message_window .powered_by img {
-  position: relative;
-  top: 2px;
 }
 #message_window section {
   flex-grow: 1;
@@ -179,10 +171,10 @@ a.button:hover {
   clear: both;
 }
 #message_window footer {
-  border-top: 1px solid #CCC;
+  border-top: 1px solid #ccc;
   padding: 0.25rem;
 }
-#message_window footer input[type=text] {
+#message_window footer input[type="text"] {
   flex-grow: 1;
   font-size: 1.25rem;
   outline: none;
@@ -204,10 +196,23 @@ a.button:hover {
 #message_window #message_template {
   display: none;
 }
+.bot-img {
+  float: left;
+  border-radius: 50%;
+}
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 33.33%;
+  padding: 5px;
+}
+
 #message_window .message {
   font-size: 14px;
   padding: 0.5rem;
-  background: #F0F0F0;
+  background: #ffffcc;
   color: #333;
   border-radius: 5px;
   width: auto;
@@ -215,7 +220,7 @@ a.button:hover {
   max-width: 75%;
 }
 #message_window .file_attachment {
-  background: #F0F0F0;
+  background: #f0f0f0;
   color: #333;
   border-radius: 5px;
   display: inline-block;
@@ -279,7 +284,7 @@ a.button:hover {
 }
 #message_window #message_replies a:hover {
   background: #a795ef;
-  color: #FFF;
+  color: #fff;
 }
 
 /* typing indicator CSS based on code by Joseph Fusco -> https://codepen.io/fusco/pen/XbpaYv */
