@@ -112,7 +112,8 @@
 }
 
 .chatBotPopup .userMessage:after {
-  transform: translate(75px, -25px);
+  transform: translate(220px, -30px);
+  display: block;
   background-color: rgba(0, 255, 0, 0.5);
   background-image: var(--userImg);
 }

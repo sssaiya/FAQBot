@@ -9,7 +9,7 @@
     <!-- Home Page CSS -->
     <link rel="stylesheet" type="text/css" href="bot.css">
 
-    <script type="text/javascript" src="./index.js"></script>
+    <!-- <script type="text/javascript" src="./index.js"></script> -->
 
 </head>
 
@@ -18,14 +18,8 @@
     <div class="chatBotPopup" id="chatBotPopup">
         <a id="closeButton" class="clickable" onclick="closeForm()">&#8964;</a>
         <div id="chatContainer">
-            <div class="botMessage message">May I help you?, May I help you?</div>
-            <div class="userMessage message">I have a query about attendence registration</div>
-            <div class="botMessage message">May I help you?</div>
-            <div class="userMessage message">I have a query about attendence registration</div>
-            <div class="botMessage message">May I help you?</div>
-            <div class="userMessage message">I have a query about attendence registration</div>
-            <div class="botMessage message">May I help you?</div>
-            <div class="userMessage message">I have a query about attendence registration</div>
+            <div class="botMessage message">How may I help you?</div>
+            <div class="userMessage message">How may I help you?</div>
         </div>
         <hr id="chatSeperator" />
         <input id="userInput" type="text" placeholder="Enter your message..." autocomplete="off" />
@@ -45,7 +39,11 @@
         }
 
         function sendMessage() {
-            const messageText = document.getElementById("userInput").value;
+            let userInput = document.getElementById("userInput");
+            const messageText = userInput.value;
+            userInput.value = ""; // clear input
+
+            addUserMessageToChat(messageText.trim());
             let request = new XMLHttpRequest();
             const host = "http://127.0.0.1"
             const port = "3000";
@@ -53,9 +51,25 @@
             request.open('GET', url);
             request.responseType = 'text';
             request.onload = function () {
-                console.log(request.response);
+                addBotMessageToChat(request.response);
             };
             request.send();
+        }
+
+        function addUserMessageToChat(text) {
+            let mess = document.createElement('div');
+            mess.classList.add("userMessage");
+            mess.classList.add("message");
+            mess.innerText = text;
+            document.getElementById('chatContainer').appendChild(mess);
+        }
+
+        function addBotMessageToChat(text) {
+            let mess = document.createElement('div');
+            mess.classList.add("botMessage");
+            mess.classList.add("message");
+            mess.innerText = text;
+            document.getElementById('chatContainer').appendChild(mess);
         }
     </script>
 

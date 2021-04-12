@@ -10,6 +10,7 @@ var wordnet = new natural.WordNet();
 natural.PorterStemmer.attach(); //Patch lib with stemming
 const { IncomingWebhook } = require("ms-teams-webhook");
 var cors = require("cors");
+const RESPONSES = require("./bot_responses.js");
 
 var app = express();
 app.use(cors());
@@ -46,7 +47,7 @@ function getData() {
   if (data != null) {
     return data;
   }
-  var workbook = XLSX.readFile("data.xlsx");
+  var workbook = XLSX.readFile("./data.xlsx");
   // console.log(workbook);
   var first_sheet_name = workbook.SheetNames[0];
   console.log("HERE in data Extract");
@@ -112,6 +113,11 @@ function userQuestion(text) {
   console.log(spellChecked);
   let bestMatchIndex = matchTokens(data.keyWordStems, spellChecked);
   console.log(bestMatchIndex);
+  if (bestMatchIndex == -1) {
+    //Here as no answer found
+    console.log(RESPONSES);
+  } else {
+  }
 }
 
 function getSynonyms(keyword) {
