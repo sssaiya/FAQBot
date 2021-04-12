@@ -1,0 +1,118 @@
+/* Button used to open the chat form - fixed at the bottom of the page */
+#chatBotOpenButton {
+  box-sizing: border-box;
+  padding: 16px 20px;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 140px;
+}
+
+/* The popup chat - hidden by default */
+#chatBotPopup {
+  /* resize: vertical; */
+  display: none;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  overflow: auto;
+  border-radius: 8px;
+  z-index: 9;
+  height: 350px;
+  width: 300px;
+  max-height: 700px;
+  min-height: 300px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-image: url("./img/wave.png");
+  background-repeat: no-repeat;
+  background-position: 0px -50px;
+  background-size: 300px 200px;
+}
+
+.chatBotPopup > * {
+  position: absolute;
+}
+
+.chatBotPopup #userInput {
+  background-color: #eeeeee;
+  width: 210px;
+  line-height: 30px;
+  border: none;
+  border-radius: 4px;
+  padding-left: 20px;
+  /* bottom: -32.5px; */
+  bottom: 7.5px;
+  left: 10px;
+}
+
+.chatBotPopup #chatContainer {
+  width: 300px;
+  height: 210px;
+  background-color: azure;
+  top: 80px;
+  overflow: scroll;
+}
+
+.chatBotPopup #sendButton {
+  bottom: 2.5px;
+  right: 10px;
+}
+
+.chatBotPopup #chatSeperator {
+  width: 280px;
+  bottom: 40px;
+  left: 10px;
+}
+
+.chatBotPopup #closeButton {
+  color: white;
+  font-size: x-large;
+  top: 0px;
+  right: 10px;
+}
+
+.chatBotPopup .clickable,
+.openChatbotClickable {
+  cursor: pointer;
+}
+
+.chatBotPopup .botMessage {
+  background-color: #eeeeee;
+  left: 60px;
+}
+.chatBotPopup .userMessage {
+  background-color: #6530db;
+  color: white;
+  left: 20px;
+}
+
+.chatBotPopup .message {
+  width: 200px;
+  border-radius: 4px;
+  margin-top: 15px;
+  padding: 10px;
+  position: relative;
+}
+
+.chatBotPopup .message:before,
+.chatBotPopup .message:after {
+  display: inline-block;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+.chatBotPopup .message:before,
+.chatBotPopup .message:after {
+  position: absolute;
+  content: "";
+}
+.chatBotPopup .botMessage:before {
+  transform: translate(-55px, -10px);
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.chatBotPopup .userMessage:after {
+  transform: translate(75px, -25px);
+  background-color: rgba(0, 255, 0, 0.5);
+  background-image: var(--userImg);
+}

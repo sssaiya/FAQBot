@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FAQ Bot</title>
+
+    <!-- Home Page CSS -->
+    <link rel="stylesheet" type="text/css" href="bot.css">
+
+    <script type="text/javascript" src="./index.js"></script>
+
+</head>
+
+<body>
+    <a onclick="openForm()" class="openChatbotClickable"><img src="./img/icon-ask.png" id="chatBotOpenButton"></a>
+    <div class="chatBotPopup" id="chatBotPopup">
+        <a id="closeButton" class="clickable" onclick="closeForm()">&#8964;</a>
+        <div id="chatContainer">
+            <div class="botMessage message">May I help you?, May I help you?</div>
+            <div class="userMessage message">I have a query about attendence registration</div>
+            <div class="botMessage message">May I help you?</div>
+            <div class="userMessage message">I have a query about attendence registration</div>
+            <div class="botMessage message">May I help you?</div>
+            <div class="userMessage message">I have a query about attendence registration</div>
+            <div class="botMessage message">May I help you?</div>
+            <div class="userMessage message">I have a query about attendence registration</div>
+        </div>
+        <hr id="chatSeperator" />
+        <input id="userInput" type="text" placeholder="Enter your message..." autocomplete="off" />
+        <a id="sendButton" class="clickable" onclick="sendMessage()"><img src="./img/btn-send.png" height="35px"
+                width="35px"></a>
+    </div>
+
+    <script>
+        function openForm() {
+            document.getElementById("chatBotPopup").style.display = "block";
+            document.getElementById("chatBotOpenButton").style.display = "none";
+        }
+
+        function closeForm() {
+            document.getElementById("chatBotPopup").style.display = "none";
+            document.getElementById("chatBotOpenButton").style.display = "block";
+        }
+
+        function sendMessage() {
+            const messageText = document.getElementById("userInput").value;
+            let request = new XMLHttpRequest();
+            const host = "http://127.0.0.1"
+            const port = "3000";
+            const url = `${host}:${port}/userMessage?Question=${messageText}`;
+            request.open('GET', url);
+            request.responseType = 'text';
+            request.onload = function () {
+                console.log(request.response);
+            };
+            request.send();
+        }
+    </script>
+
+</body>
+
+</html>

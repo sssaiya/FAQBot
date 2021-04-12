@@ -8,12 +8,17 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "botbuilder-adapter-web": "^1.0.9",
-    "botbuilder-storage-mongodb": "^0.9.5",
-    "botkit": "^4.10.0",
-    "botkit-plugin-cms": "^1.0.3",
-    "dotenv": "^7.0.0",
+    "browserify-fs": "^1.0.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.4.1",
+    "ms-teams-webhook": "^1.0.3",
     "natural": "^2.1.5",
-    "node-xlsx": "^0.15.0"
+    "node-nlp": "^4.22.1",
+    "node-xlsx": "^0.15.0",
+    "spacy-nlp": "^1.0.11",
+    "webworker-threads": "^0.7.17",
+    "wordnet-db": "^3.1.14"
   }
 }
