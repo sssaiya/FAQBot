@@ -23,10 +23,33 @@ app.use(express.static(__dirname + "/public"));
 var data = null;
 getData();
 app.get("/userMessage", (req, res) => {
-  let question = req.query.Question;
-  userQuestion(question);
-  res.send("RESPONSE");
-  // res.sendFile(path.join(__dirname + "/public/html/index.html"));
+  if (req.query.Question) {
+    res.status(200).json(userQuestion(req.query.Question));
+  } else if (req.query.quickReplyCode) {
+    switch (parseInt(req.query.quickReplyCode)) {
+      case 1:
+        console.log("Here with case 1");
+        break;
+      case 2:
+        console.log("Here with case 2");
+        break;
+      case 3:
+        //Do Nothing / reply with "Happy to help"
+        console.log("Here with case 3");
+        break;
+      case 4:
+        res.status(200).json(sendCategoriesResponse());
+        console.log("Here with case 4");
+        break;
+      case 5:
+        console.log("Here with case 5");
+        break;
+      default:
+        console.log(req.query.quickReplyCode);
+    }
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 app.get("/addNewProject", (req, res) => {
@@ -40,8 +63,6 @@ app.listen(port, () => {
 });
 
 var currentQuestion = "";
-const BOT_NAME = "";
-const BOT_TYPING_TIME = "2000";
 
 function getData() {
   if (data != null) {
@@ -110,15 +131,32 @@ function getData() {
 function userQuestion(text) {
   //Tokenize input and run spellcheck on all the words
   let spellChecked = spellCheckPhrase(text, data.Corpus);
-  console.log(spellChecked);
   let bestMatchIndex = matchTokens(data.keyWordStems, spellChecked);
-  console.log(bestMatchIndex);
+  let resp = [];
   if (bestMatchIndex == -1) {
     //Here as no answer found
-    console.log(RESPONSES);
+    resp.push({ text: RESPONSES.RESPONSES.noFindRes, type: "text" });
+    resp.push({
+      text: RESPONSES.RESPONSES.sendToHumanRes,
+      type: "quickReply",
+      quickReply: RESPONSES.send_human_quick_replies,
+    });
   } else {
+    resp.push({ text: data.Answers[bestMatchIndex], type: "text" });
+    resp.push({
+      text: RESPONSES.RESPONSES.userSatisfied,
+      type: "quickReply",
+      quickReply: RESPONSES.find_else_quick_replies,
+    });
   }
+  return resp;
 }
+
+function sendCategoriesResponse(){
+  // resp
+}
+
+function bot_responses(code) {}
 
 function getSynonyms(keyword) {
   var synonymsArr = [];
@@ -187,7 +225,6 @@ function matchTokens(questionTokens, toMatchTokens) {
       indexOfBestMatch = i;
     }
   }
-  console.log("best match - " + indexOfBestMatch);
   return indexOfBestMatch;
 }
 
@@ -207,8 +244,9 @@ function findAllMatches(questionTokens, toMatchTokens) {
   return matched;
 }
 
-const url =
-  "https://outlook.office.com/webhook/8857addc-0e4a-4d8a-a8d5-c3412175d200@d52c9ea1-7c21-47b1-82a3-33a74b1f74b8/IncomingWebhook/b86f3e9fe6724ee79f5f5097b4b32903/a76343d9-43aa-4900-a179-8e0a3baa763e";
+// const url =
+// "https://outlook.office.com/webhook/8857addc-0e4a-4d8a-a8d5-c3412175d200@d52c9ea1-7c21-47b1-82a3-33a74b1f74b8/IncomingWebhook/b86f3e9fe6724ee79f5f5097b4b32903/a76343d9-43aa-4900-a179-8e0a3baa763e";
+const url = "TESTTODO";
 
 // Initialize
 const webhook = new IncomingWebhook(url);

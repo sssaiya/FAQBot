@@ -18,7 +18,7 @@
   overflow: auto;
   border-radius: 8px;
   z-index: 9;
-  height: 350px;
+  height: 500px;
   width: 300px;
   max-height: 700px;
   min-height: 300px;
@@ -47,9 +47,9 @@
 
 .chatBotPopup #chatContainer {
   width: 300px;
-  height: 210px;
-  background-color: azure;
-  top: 80px;
+  height: 350px;
+  /* background-color: azure; */
+  top: 85px;
   overflow: scroll;
 }
 
@@ -92,6 +92,7 @@
   margin-top: 15px;
   padding: 10px;
   position: relative;
+  word-wrap: break-word;
 }
 
 .chatBotPopup .message:before,
@@ -116,4 +117,25 @@
   display: block;
   background-color: rgba(0, 255, 0, 0.5);
   background-image: var(--userImg);
+}
+
+#quickRepliesContainer {
+  display: none;
+  /* background-color: rgb(207, 205, 205); */
+  position: absolute;
+  bottom: 50px;
+  left: 0px;
+  height: auto;
+  width: 300px;
+  min-height: 5px;
+}
+
+.quickReply {
+  color: #6530db;
+  border-radius: 8px;
+  border-color: #6530db;
+  border-style: solid;
+  padding: 5px 20px;
+  background-color: white;
+  margin-left: 50px;
 }

@@ -19,9 +19,9 @@
         <a id="closeButton" class="clickable" onclick="closeForm()">&#8964;</a>
         <div id="chatContainer">
             <div class="botMessage message">How may I help you?</div>
-            <div class="userMessage message">How may I help you?</div>
         </div>
-        <hr id="chatSeperator" />
+        <!-- <hr id="chatSeperator" /> -->
+        <div id="quickRepliesContainer"></div>
         <input id="userInput" type="text" placeholder="Enter your message..." autocomplete="off" />
         <a id="sendButton" class="clickable" onclick="sendMessage()"><img src="./img/btn-send.png" height="35px"
                 width="35px"></a>
@@ -40,10 +40,13 @@
 
         function sendMessage() {
             let userInput = document.getElementById("userInput");
-            const messageText = userInput.value;
+            const messageText = userInput.value.trim();;
+            if (messageText.value == "")
+                return;
+
             userInput.value = ""; // clear input
 
-            addUserMessageToChat(messageText.trim());
+            addUserMessageToChat(messageText);
             let request = new XMLHttpRequest();
             const host = "http://127.0.0.1"
             const port = "3000";
@@ -51,9 +54,48 @@
             request.open('GET', url);
             request.responseType = 'text';
             request.onload = function () {
-                addBotMessageToChat(request.response);
+                handleResponse(request.response);
             };
             request.send();
+        }
+
+        function sendQuickReply(reply_code) {
+            let request = new XMLHttpRequest();
+            const host = "http://127.0.0.1"
+            const port = "3000";
+            const url = `${host}:${port}/userMessage?quickReplyCode=${reply_code}`;
+            request.open('GET', url);
+            request.responseType = 'text';
+            request.onload = function () {
+                handleResponse(request.response);
+            };
+            request.send();
+        }
+
+        function handleResponse(res) {
+            let data = JSON.parse(res);
+            data.forEach(ans => {
+                if (ans.type && ans.type == "text") {
+                    addBotMessageToChat(ans.text)
+                } else if (ans.type && ans.type == "quickReply") {
+                    addBotMessageToChat(ans.text)
+                    let quickReplyContainer = document.getElementById('quickRepliesContainer');
+                    quickReplyContainer.style.display = "block";
+                    quickReplyContainer.innerHTML = "";
+                    ans.quickReply.forEach(reply => {
+                        let span = document.createElement('span')
+                        span.classList.add('quickReply')
+                        span.innerText = reply.title;
+                        addClickListener(span, () => {
+                            console.log(reply.payload);
+                            quickReplyContainer.style.display = "none";
+                            addUserMessageToChat(reply.payload.trim());
+                            sendQuickReply(reply.code);
+                        })
+                        quickReplyContainer.appendChild(span);
+                    })
+                }
+            })
         }
 
         function addUserMessageToChat(text) {
@@ -70,6 +112,21 @@
             mess.classList.add("message");
             mess.innerText = text;
             document.getElementById('chatContainer').appendChild(mess);
+        }
+
+        function addClickListener(el, fn) {
+            if (el.addEventListener)
+                el.addEventListener(
+                    "click",
+                    function (e) {
+                        fn();
+                    },
+                    false
+                );
+            else if (el.attachEvent)
+                el.attachEvent("onclick", function (e) {
+                    fn();
+                });
         }
     </script>
 
